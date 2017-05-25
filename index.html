@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>Aparcamientos Madrid</title>
+
+	<link rel="stylesheet" href="css/styles.css">
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" />
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/font-awesome.min.css">
+	<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+
+</head>
+<body>
+	<!-- aparcamientos y colecciones -->
+	<div id="header-wrapper" class="col-md-12">
+		<div id="header">
+			<div class="col-md-offset-2">
+				<img src="imagenes/logo.jpg" align="center">
+			</div>
+		</div>
+	</div>
+
+	<div>
+	<!-- style="cursor:not-allowed" -->
+		<ul class="nav navbar-nav navbar-right">
+	           <li><a id="boton-cargar"><span class="fa fa-github"></span> Cargar</a></li>
+	            <li><a id="boton-guardar" ><span class="fa fa-github"></span> Guardar</a></li>
+	        </ul>
+  		<ul class="nav nav-tabs" role="tablist">
+    		<li role="presentation" class="active"><a href="#principal" aria-controls="principal" role="tab" data-toggle="tab">Principal</a></li>
+    		<li role="presentation"><a href="#colecciones" aria-controls="colecciones" role="tab" data-toggle="tab">Colecciones</a></li>
+    		<li role="presentation"><a href="#aparcamientos" aria-controls="aparcamientos" role="tab" data-toggle="tab">Aparcamientos</a></li>
+   		</ul>
+  	</div>
+	
+
+<div class="tab-content">
+
+<!-- FORMULARIO PARA CARGAR DE GIT -->
+
+		<!-- Modal -->
+	<div class="modal fade" id="modalCargar" role="dialog">
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div id="cargarForm" class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+	        	<h4 class="modal-title">Cargar colección</h4>
+	      	</div>
+		      	<div class="modal-body">
+		        	<form class="form" action="">
+		          		<div class="form-group">
+		            		<label>Nombre de fichero</label>
+		           			 <input type="text" class="form-control" id="nombreFicheroOrigen">
+		          		</div>
+		          		<button type="submit" class="btn btn-default">Cargar colección</button>
+					</form>
+				</div>
+	    	</div>
+	    </div>
+	</div>
+
+<!-- FORMULARIO PARA GUARDAR EN GIT-->
+	<div class="modal fade" id="modalGuardar" role="dialog">
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Guardar colección</h4>
+				</div>
+				<div class="modal-body">
+					<form id="guardarForm" class="form" action="">
+						<div class="form-group">
+							<label>Nombre de fichero</label>
+								<input type="text" class="form-control" id="nombreFicheroDestino">
+						</div>
+						<div class="form-group">
+							<label>Repositorio destino</label>
+								<input type="text" class="form-control" id="repositorioDestino">
+						</div>
+						<div class="form-group">
+							<label>GitHub Token</label>
+								<input type="text" class="form-control" id="tokenGithubDestino">
+						</div>
+						<button type="submit" class="btn btn-default">Guardar colección</button>
+					</form>
+				</div>
+				</div>
+		</div>
+  	</div>
+
+
+						<!-- Pestaña Principal -->
+	<div id="principal" role="tabpanel" class="container-fluid tab-pane fade in active">
+		<div class="row">
+			<div id="map"></div>
+			</div>
+			<div id="separador"></div>
+			<div class="row">
+				<div class="col-md-6">
+					<h3> Aparcamientos </h3>
+					<p> Pulse el botón para ver los aparcamientos disponibles</p>
+					<div class="row">
+						<div class="col-xs-6 col-xs-offset-3">
+							<button id ="btn_cargar_aparcamientos" class="btn btn-success col-xs-12">Cargar Aparcamientos</button>
+						</div>
+					</div>
+					<h5 class="contador_aparcamientos"></h5>
+					<div id="lista_aparcamientos" style="overflow-y:scroll; max-height:200px; height:200px;">
+						<ul class="ul_aparcamientos list-group"></ul>
+					</div>
+				</div>
+			<div class="col-md-6">
+				<h3> Colecciones de aparcamientos </h3>
+				<div id="colecc_principal"></div>
+			</div>
+		</div>
+		<div id="separador"></div>
+		<div class="row">
+			<div class="col-md-5">
+				<h3> Aparcamiento seleccionado </h3>
+				<div class="info-aparcamiento"></div>
+			</div>
+			<div class="col-md-7">
+				<h3> Fotos del aparcamiento seleccionado</h3>
+				<div id="fotos" class="col-xs-6 col-xs-offset-3"></div>
+			</div>
+		</div>
+	</div> <!--div fin container -->
+
+
+						<!-- Pestaña Colecciones -->
+	<div id="colecciones" class="tab-pane fade" >
+	<div class="row">
+		<div class="col-sm-4">
+			<h3 > Aparcamientos </h3>
+			<br/>
+				<h5 class="contador_aparcamientos"></h5>
+				<div id="lista_aparcamientos" style="overflow-y:scroll; height:200px;">
+					<ul class="ul_aparcamientos list-group"></ul>
+				</div>
+		</div>
+		<div class="col-sm-4">
+			<h3> Colecciones de aparcamientos </h3>
+			<br/>
+		  	<div>
+		  		<p style="text-align: left;"> Formulario para crear una nueva coleccion: </p> 
+				<input type="text" name="coleccion" id="coleccion">
+				<button type="button" id="añadir_coleccion">
+					<span class="gglyphicon glyphicon-plus" aria-hidden="true"></span>
+				</button>
+			</div>
+			<div id="coleccion-aparcamientos">
+				<br/>
+				<p> No existen colecciones creadas.</p>
+			</div>
+		</div>
+		<div class="col-sm-4">
+			<h3> Aparcamientos de la coleccion seleccionada </h3>
+			</br>
+			<div id="todos_aparca" class="list-group aparca-list" style="overflow-y:scroll; height:300px;"></div>
+			</br>
+			<div id="aparcacoleccionlista" class="list-group aparca-list"></div>
+		</div>
+	</div>
+	</div> <!-- fin pestaña colecciones -->
+
+	<!-- Pestaña Aparcamientos -->
+	<div id="aparcamientos" class="tab-pane fade">
+		<div class="row">
+			<h3> Descripción del aparcamiento seleccionado </h3>
+			<div id="id_pos_aparca"></div>
+			<div class="desc-aparcamiento">
+				<div id="fotos" class="col-xs-6 col-xs-offset-3"></div>
+			</div>
+		</div>
+		<div id="separador"></div>
+		<div class="row">
+			<div class="col-md-6">
+				<h3> Usuarios asignados a este aparcamiento </h3>
+				<div class="row">
+					<div class="col-xs-6 col-xs-offset-3">
+						<div class="usuariosGoogle"></div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<h3> Lista de usuarios para dar de alta a un aparcamiento </h3>
+				<div class="row">
+					<div class="col-xs-6 col-xs-offset-3">
+					<button id ="btn_cargar_usuarios" class="btn btn-success col-xs-12 glyphicon glyphicon-repeat"> Cargar Usuarios</button>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6 col-xs-offset-3">
+						<div class="usu_lista" style="overflow-y:scroll; height:200px;"></div>
+					</div>
+				</div>
+			</div>
+			</div>
+		</div>
+	</div>
+</div>
+	<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
+	<script src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
+	<script src="https://apis.google.com/js/api.js"></script>
+
+	<script src="js/github.js"></script>
+	<script type="text/javascript" src="js/aparcamientos.js"></script>
+
+</body>
+</html>
