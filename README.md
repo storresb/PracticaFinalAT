@@ -13,4 +13,4 @@ La practica tiene un favicon, para que se vea en las pestañas, no deja meter un
 video de la parte obligatoria: https://www.youtube.com/watch?v=Re2ZWvvBE24&feature=youtu.be
 
 
-[try me](https://github.com/storresb/PracticaFinalAT/index.html)
+[try me](https://storresb.github.io/PracticaFinalAT/index.html)
